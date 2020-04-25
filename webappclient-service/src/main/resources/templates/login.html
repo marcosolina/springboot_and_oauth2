@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+<meta charset="UTF-8" />
+	<title>User Sign-in</title>
+</head>
+
+
+<body>
+	<h1>Sign In</h1>
+	<form th:action="@{/login}" method="post">
+		<!-- 
+			The name of those fields are matching what Spring Security is
+			expecting to receive. If you need to change those, you have to 
+			change the Spring Security Configuration and provide your custom
+			logic
+		 -->
+		<input type="text"		name = "username" placeholder="Username" required autofocus>
+		<input type="password"	name = "password" placeholder="Password" required>
+		<button type="submit">Sign in</button>
+	</form>
+
+</body>
+</html>
