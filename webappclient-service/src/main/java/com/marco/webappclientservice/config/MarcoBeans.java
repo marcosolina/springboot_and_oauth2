@@ -18,4 +18,5 @@ public class MarcoBeans {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }

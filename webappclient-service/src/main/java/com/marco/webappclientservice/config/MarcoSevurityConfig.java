@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 
 /**
  * Customising the default Spring Security behaviour
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  *
  */
 @Configuration
+@EnableOAuth2Client
 public class MarcoSevurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -33,11 +35,17 @@ public class MarcoSevurityConfig extends WebSecurityConfigurerAdapter {
             .anyRequest().authenticated()
         .and()
             /*
+             * Enabling the login using an external Authentication service
+             */
+            .oauth2Login()
+            /*
              * requesting to redirect the user to the custom login form.
              * On successfull authentication I redirect the user to the 
              * hello api
              */
-            .formLogin().loginPage("/login").defaultSuccessUrl("/hello", true)
+            .loginPage("/login").defaultSuccessUrl("/admin/hello", true)
+        .and()
+            .csrf().disable()
             
         ;
         // @formatter:on
