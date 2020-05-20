@@ -1,12 +1,22 @@
 package com.marco.webappclientservice.config;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
+import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorHandler;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
+import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * Customising the default Spring Security behaviour
@@ -38,12 +48,14 @@ public class MarcoSevurityConfig extends WebSecurityConfigurerAdapter {
              * Enabling the login using an external Authentication service
              */
             .oauth2Login()
+                //.tokenEndpoint().accessTokenResponseClient(accessTokenResponseClient())
+                .userInfoEndpoint().userService(new MarcoDefaultOAuth2UserService())
             /*
              * requesting to redirect the user to the custom login form.
              * On successfull authentication I redirect the user to the 
              * hello api
              */
-            .loginPage("/login").defaultSuccessUrl("/admin/hello", true)
+             .and().loginPage("/login").defaultSuccessUrl("/admin/hello", true)
         .and()
             .csrf().disable()
             
@@ -51,6 +63,19 @@ public class MarcoSevurityConfig extends WebSecurityConfigurerAdapter {
         // @formatter:on
 
     }
+    
+    @Bean
+    public OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient() {
+        DefaultAuthorizationCodeTokenResponseClient accessTokenResponseClient = new DefaultAuthorizationCodeTokenResponseClient();
+        
+        OAuth2AccessTokenResponseHttpMessageConverter tokenResponseHttpMessageConverter = new OAuth2AccessTokenResponseHttpMessageConverter();
+        tokenResponseHttpMessageConverter.setTokenResponseConverter(new MarcoTokenResponseConverter());
+        RestTemplate restTemplate = new RestTemplate(Arrays.asList(new FormHttpMessageConverter(), tokenResponseHttpMessageConverter));
+        restTemplate.setErrorHandler(new OAuth2ErrorResponseErrorHandler());
+        accessTokenResponseClient.setRestOperations(restTemplate);
+        return accessTokenResponseClient;
+    }
+    
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

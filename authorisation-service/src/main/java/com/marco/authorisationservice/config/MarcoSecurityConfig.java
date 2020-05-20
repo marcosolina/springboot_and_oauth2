@@ -56,7 +56,7 @@ public class MarcoSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
             .withUser("admin")
             .password(passwEnc.encode("Test123#"))
-            .roles("ADMIN", "USER")
+            .roles("ADMIN", "USER", "MARCO")
         ;
         //@formatter:on
     }
