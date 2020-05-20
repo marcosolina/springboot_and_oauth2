@@ -35,8 +35,6 @@ public class MarcoSevurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
         http.authorizeRequests()
-            //everybody should be able to access the login screen
-            .antMatchers("/login").permitAll()
             //The admin API is available only to admin users
             .antMatchers("/admin/**").hasRole("ADMIN")
             //all the remaining APIs are available to ADMIN and USER users
@@ -44,6 +42,10 @@ public class MarcoSevurityConfig extends WebSecurityConfigurerAdapter {
             //all the requests must be authenticated
             .anyRequest().authenticated()
         .and()
+            //everybody should be able to access the login screen
+            .formLogin().loginPage("/login").permitAll()
+        .and()
+            
             /*
              * Enabling the login using an external Authentication service
              */
@@ -81,7 +83,8 @@ public class MarcoSevurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //@formatter:off
         /*
-         * Storing in the memory two users
+         * Storing in the memory two users. Those are users defined in the 
+         * current project
          */
         auth.inMemoryAuthentication()
             .withUser("user")
