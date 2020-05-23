@@ -57,10 +57,14 @@ public class MarcoAuthorizationServerConfig extends AuthorizationServerConfigure
         clients
             .inMemory()
                 .withClient("webappid")
-                .authorizedGrantTypes("password", "authorization_code")
+                .authorizedGrantTypes("password", "authorization_code", "client_credentials")
                 .secret(passwEnc.encode("Test123#"))
                 .scopes("user_info","read","write")
                 .redirectUris("http://localhost:8080/webapp/login/oauth2/code/webappid")
+                .autoApprove(false)
+                .and()
+                .withClient("resourceclient")
+                .secret(passwEnc.encode("Test123#"))
                 .autoApprove(false)
         ;
         // @formatter:on
