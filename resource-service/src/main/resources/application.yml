@@ -1,0 +1,12 @@
+server:
+  port: 8084
+
+
+security:
+  oauth2:
+    client:
+      clientId: resourceclient #user name of this application, used against the Authorisation service
+      clientSecret: password #passowrd of this application
+    resource:
+      jwt:
+        key-uri: http://localhost:8081/auth/oauth/token_key #where to retrive the public key used to sign the token

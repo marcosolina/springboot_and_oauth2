@@ -1,0 +1,30 @@
+server:
+  servlet:
+    context-path: /webapp
+
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          # here is where I register the autorisation service/s
+          # I have first to register the current application on the auth service
+          # and then put the details here 
+          marco-authorisation:
+            client-id: webappid
+            client-secret: password
+            client-name: MarcoWebApp
+            scope: user_info,read,write
+            redirect-uri: http://localhost:8080/webapp/login/oauth2/code/webappid
+            client-authentication-method: basic
+            authorization-grant-type: authorization_code
+            provider: marco-authorisation
+        provider:
+            # Those are the URLS that this application should use
+            # when it has to exchange info with the auth service 
+            marco-authorisation:
+              token-uri: http://localhost:8081/auth/oauth/token
+              authorization-uri: http://localhost:8081/auth/oauth/authorize
+              user-info-uri: http://localhost:8081/auth/userinfo
+              user-name-attribute: username
