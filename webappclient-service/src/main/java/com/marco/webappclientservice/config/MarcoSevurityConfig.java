@@ -18,6 +18,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import com.marco.webappclientservice.config.custom.MarcoDefaultOAuth2UserService;
+import com.marco.webappclientservice.config.custom.MarcoTokenResponseConverter;
+
 /**
  * Customising the default Spring Security behaviour
  * 
@@ -50,7 +53,11 @@ public class MarcoSevurityConfig extends WebSecurityConfigurerAdapter {
              * Enabling the login using an external Authentication service
              */
             .oauth2Login()
-                //.tokenEndpoint().accessTokenResponseClient(accessTokenResponseClient())
+            	/*
+            	 * Using a custom accessTokenResponseClient
+            	 */
+                .tokenEndpoint().accessTokenResponseClient(accessTokenResponseClient())
+                .and()
                 .userInfoEndpoint().userService(new MarcoDefaultOAuth2UserService())
             /*
              * requesting to redirect the user to the custom login form.
@@ -68,10 +75,17 @@ public class MarcoSevurityConfig extends WebSecurityConfigurerAdapter {
     
     @Bean
     public OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient() {
+    	/*
+    	 * I am using all the default classes, except for the Token Response Converter
+    	 */
         DefaultAuthorizationCodeTokenResponseClient accessTokenResponseClient = new DefaultAuthorizationCodeTokenResponseClient();
-        
         OAuth2AccessTokenResponseHttpMessageConverter tokenResponseHttpMessageConverter = new OAuth2AccessTokenResponseHttpMessageConverter();
+        
+        /*
+         * Using my custom token response converter
+         */
         tokenResponseHttpMessageConverter.setTokenResponseConverter(new MarcoTokenResponseConverter());
+        
         RestTemplate restTemplate = new RestTemplate(Arrays.asList(new FormHttpMessageConverter(), tokenResponseHttpMessageConverter));
         restTemplate.setErrorHandler(new OAuth2ErrorResponseErrorHandler());
         accessTokenResponseClient.setRestOperations(restTemplate);
@@ -88,11 +102,11 @@ public class MarcoSevurityConfig extends WebSecurityConfigurerAdapter {
          */
         auth.inMemoryAuthentication()
             .withUser("user")
-            .password(passwEncoder.encode("Test123#"))
+            .password(passwEncoder.encode("password"))
             .roles("USER")
         .and()
             .withUser("admin")
-            .password(passwEncoder.encode("Test123#"))
+            .password(passwEncoder.encode("password"))
             .roles("ADMIN")
         ;
         //@formatter:on

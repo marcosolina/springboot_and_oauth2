@@ -48,15 +48,18 @@ public class MarcoSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    	/*
+    	 * Defining two in memory users
+    	 */
         //@formatter:off
         auth.inMemoryAuthentication()
             .withUser("user")
-            .password(passwEnc.encode("Test123#"))
-            .roles("USER")
+            .password(passwEnc.encode("password"))
+            .roles("USER")//just one group
         .and()
             .withUser("admin")
-            .password(passwEnc.encode("Test123#"))
-            .roles("ADMIN", "USER", "MARCO")
+            .password(passwEnc.encode("password"))
+            .roles("ADMIN", "USER", "MARCO")//this user belongs to three groups
         ;
         //@formatter:on
     }

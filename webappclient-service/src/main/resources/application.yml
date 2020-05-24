@@ -13,7 +13,7 @@ spring:
           # and then put the details here 
           marco-authorisation:
             client-id: webappid
-            client-secret: Test123#
+            client-secret: password
             client-name: MarcoWebApp
             scope: user_info,read,write
             redirect-uri: http://localhost:8080/webapp/login/oauth2/code/webappid

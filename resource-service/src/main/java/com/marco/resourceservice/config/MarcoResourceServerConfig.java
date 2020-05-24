@@ -6,6 +6,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 
+/**
+ * Standard spring security config class
+ * @author marco
+ *
+ */
 @Configuration
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -16,7 +21,7 @@ public class MarcoResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         // @formatter:off
         http.authorizeRequests()
-            .antMatchers("/**").fullyAuthenticated()
+            .antMatchers("/**").fullyAuthenticated()//any request must be authenticated
         ;
         // @formatter:on
     }

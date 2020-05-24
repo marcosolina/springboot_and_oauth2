@@ -18,13 +18,13 @@ public class MarcoController {
     @GetMapping("/hello")
     public String getHello() {
         String s = webClient.get().uri("http://localhost:8084/read").retrieve().bodyToMono(String.class).block();
-        return "Hello from Web App Client (no admin) \n" + s;
+        return "Hi, you can reach this page if you have either the \"ADMIN\" or \"USER\" role " + s;
     }
 
     @GetMapping("/admin/hello")
     public String getHelloAdmin() {
         String s = webClient.get().uri("http://localhost:8084/read").retrieve().bodyToMono(String.class).block();
-        return "Hello Admin from Web App Client (admin)\n" + s;
+        return "Hi, you can reach this page only if you have the \"ADMIN\" role " + s;
     }
     
     @GetMapping(value="/userinfo")

@@ -26,31 +26,31 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 @EnableAuthorizationServer
 public class MarcoAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+	@Autowired
+	private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private TokenStore tokenStore;
+	@Autowired
+	private TokenStore tokenStore;
 
-    @Autowired
-    private PasswordEncoder passwEnc;
+	@Autowired
+	private PasswordEncoder passwEnc;
 
-    @Autowired
-    private JwtAccessTokenConverter tokenConverter;
+	@Autowired
+	private JwtAccessTokenConverter tokenConverter;
 
-    @Override
-    public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
-        // @formatter:off
+	@Override
+	public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
+		// @formatter:off
         oauthServer
             .tokenKeyAccess("isAuthenticated()")
             .checkTokenAccess("isAuthenticated()")              
         ;
         // @formatter:on
-    }
+	}
 
-    @Override
-    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        // @formatter:off
+	@Override
+	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+		// @formatter:off
         /*
          * Registering the clients authorised to use this Auth service
          */
@@ -58,30 +58,33 @@ public class MarcoAuthorizationServerConfig extends AuthorizationServerConfigure
             .inMemory()
                 .withClient("webappid")
                 .authorizedGrantTypes("password", "authorization_code", "client_credentials")
-                .secret(passwEnc.encode("Test123#"))
+                .secret(passwEnc.encode("password"))
                 .scopes("user_info","read","write")
                 .redirectUris("http://localhost:8080/webapp/login/oauth2/code/webappid")
-                .autoApprove(false)
+                .autoApprove(true)
                 .and()
                 .withClient("resourceclient")
-                .secret(passwEnc.encode("Test123#"))
-                .autoApprove(false)
+                .secret(passwEnc.encode("password"))
+                .autoApprove(true)
         ;
         // @formatter:on
-    }
+	}
 
-    @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        TokenEnhancerChain chain = new TokenEnhancerChain();
-        chain.setTokenEnhancers(Arrays.asList(new MarcoTokenEnhancer(), tokenConverter));
-        // @formatter:off
+	@Override
+	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+		/*
+		 * Creating a chain of token enhancers, so I can add some custom claims
+		 */
+		TokenEnhancerChain chain = new TokenEnhancerChain();
+		chain.setTokenEnhancers(Arrays.asList(new MarcoTokenEnhancer(), tokenConverter));// order matters
+		// @formatter:off
             endpoints
                 .authenticationManager(authenticationManager)
                 .tokenStore(tokenStore)
-                //.tokenEnhancer(chain)
+                .tokenEnhancer(chain)
                 .accessTokenConverter(tokenConverter);
             ;
         // @formatter:on
-    }
+	}
 
 }

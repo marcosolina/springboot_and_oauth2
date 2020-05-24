@@ -1,4 +1,4 @@
-package com.marco.webappclientservice.config;
+package com.marco.webappclientservice.config.custom;
 
 import java.util.LinkedHashSet;
 import java.util.List;

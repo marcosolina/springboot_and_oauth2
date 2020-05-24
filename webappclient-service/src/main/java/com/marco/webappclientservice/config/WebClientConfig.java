@@ -11,13 +11,17 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class WebClientConfig {
 
     /*
-     * Il primo parametro e' il repository che contiene l'elenco dei client
-     * configurati (property files o db) il secondo e' il repository che contiene i
-     * token dei vari utenti che hanno autorizzato l'app corrente
+     * The first parameter is the repository that contains the list of registered oauth2 client.
+     * The one which are defined in the property file.
+     * The second parameter is the repository which will contain al the tokens requested when the user
+     * has performed the login 
      */
     @Bean
     public WebClient getWebClient(ClientRegistrationRepository clientRepo, OAuth2AuthorizedClientRepository authClientRepo) {
         ServletOAuth2AuthorizedClientExchangeFilterFunction filter = new ServletOAuth2AuthorizedClientExchangeFilterFunction(clientRepo, authClientRepo);
+        /*
+         * In my properties I have configured only one client, so I can use it as default
+         */
         filter.setDefaultClientRegistrationId("marco-authorisation");
 
         return WebClient.builder().apply(filter.oauth2Configuration()).build();

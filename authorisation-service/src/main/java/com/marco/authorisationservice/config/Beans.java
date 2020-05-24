@@ -20,35 +20,46 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @Configuration
 public class Beans {
 
-    @Bean
-    public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
-    }
+	/**
+	 * Password encoder used to encrypt the user passowrds
+	 * 
+	 * @return
+	 */
+	@Bean
+	public PasswordEncoder encoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-    @Bean
-    public TokenStore tokenStore() {
-        return new JwtTokenStore(accessTokenConverter());
-    }
+	/**
+	 * Token store of type JwtTokenStore
+	 * 
+	 * @return
+	 */
+	@Bean
+	public TokenStore tokenStore() {
+		return new JwtTokenStore(accessTokenConverter());
+	}
 
-    @Bean
-    public JwtAccessTokenConverter accessTokenConverter() {
-        final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+	@Bean
+	public JwtAccessTokenConverter accessTokenConverter() {
+		final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
 
-        /*
-         * At the moment I don't want to use a keystore, but I need to generate a
-         * Private and Public key to sign the JWT token. So I will crate the keys on the
-         * fly
-         */
-        KeyPairGenerator kpg = null;
-        try {
-            kpg = KeyPairGenerator.getInstance("RSA");
-            kpg.initialize(2048);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+		/*
+		 * At the moment I don't want to use a keystore, but I need to generate a
+		 * Private and Public key to sign the JWT token. So I will crate the keys on the
+		 * fly
+		 */
+		KeyPairGenerator kpg = null;
+		try {
+			kpg = KeyPairGenerator.getInstance("RSA");
+			kpg.initialize(2048);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
 
-        converter.setKeyPair(kpg.generateKeyPair());
-        return converter;
-    }
+		converter.setKeyPair(kpg.generateKeyPair());
+		
+		return converter;
+	}
 
 }
