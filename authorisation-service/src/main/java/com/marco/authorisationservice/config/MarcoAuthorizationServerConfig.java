@@ -65,7 +65,12 @@ public class MarcoAuthorizationServerConfig extends AuthorizationServerConfigure
                 .and()
                 .withClient("resourceclient")
                 .secret(passwEnc.encode("password"))
+                .scopes("read_internal_service")
+                .authorizedGrantTypes("client_credentials")
                 .autoApprove(true)
+                .and()
+                .withClient("internalresourceclient")
+                .secret(passwEnc.encode("password"))
         ;
         // @formatter:on
 	}

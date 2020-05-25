@@ -1,0 +1,16 @@
+
+server:
+  servlet:
+    context-path: /internalservice
+  port: 8082
+  
+  
+security:
+  oauth2:
+    client:
+      clientId: internalresourceclient #user name of this application, used against the Authorisation service
+      clientSecret: password #passowrd of this application
+    resource:
+      jwt:
+        key-uri: http://localhost:8081/auth/oauth/token_key #where to retrieve the public key used to sign the token
+      

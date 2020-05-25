@@ -9,4 +9,19 @@ security:
       clientSecret: password #passowrd of this application
     resource:
       jwt:
-        key-uri: http://localhost:8081/auth/oauth/token_key #where to retrive the public key used to sign the token
+        key-uri: http://localhost:8081/auth/oauth/token_key #where to retrieve the public key used to sign the token
+        
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          marco-authorisation:
+            client-id: resourceclient
+            client-secret: password
+            authorization-grant-type: client_credentials
+        provider:
+            # Those are the URLS that this application should use
+            # when it has to exchange info with the auth service 
+            marco-authorisation:
+              token-uri: http://localhost:8081/auth/oauth/token
