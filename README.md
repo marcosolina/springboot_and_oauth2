@@ -1,6 +1,6 @@
 # Springboot & Oauth2 
 Oauth2 is a widespread (at the time of writing this) protocol, and it is used to secure applications or resources.
-In this repo I am creating a very simple Springboot projects to learn more about Oauth2 and how I can use it. All the tutorials, guides, youtube videos that I manage to read / watch, are always creating one single Java project and defining all the actors (Client Application, Authorisation Server, Resource Server) in that project, which is fine, but not a real scenario. In the real world usually all those actors are deployed in different places, so they needs to be implemented in different Java projects. This is what I wanted to do here, create different projects for every actor, and understand how to use Springboot + Oauth2.
+In this repo I am creating very simple Springboot projects to learn more about Oauth2 and how I can use it. All the tutorials, guides, youtube videos that I manage to read / watch, are always creating one single Java project and defining all the actors (Client Application, Authorisation Server, Resource Server) in that project, which is fine, but not a real scenario. In the real world usually all those actors are deployed in different places, so they needs to be implemented in different Java projects. This is what I wanted to do here, create different projects for every actor, and understand how to use Springboot + Oauth2.
 
 **Requirements**
 - Have a basic understanding of Oauth2 basic concepts (What it is, who are the actors and what are the oauth "flows")
