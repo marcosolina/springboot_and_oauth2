@@ -31,7 +31,7 @@ This service provides a protected API secured using the Oauth2 protocol. This se
 1. The reousrce owner selects the log-in via the authorisation service, the Webbapp redirects the resource owner (user) to the Authorisation service
 1. The user logs in as "admin" user 
 1. The user authorise the "Webapp" to access his resources stored on the resource server
-1. The authorisation service redirect the user to the Webapp client and provides as parameter to the "webapp" the access code
+1. The authorisation service redirects the user to the Webapp client and provides as parameter to the "webapp" the access code
 1. The Webbapp receives the access code, and uses this code to retrieve the authorisation token from the Authorisation service (**"Authorisation Code"** grant type)
 1. The Webbapp receives the Authorisation token and it makes a call to the Resource service using the authorisation code
 1. The Resource Service validates the received Authorisation token using the Authorisation Service public sign key
