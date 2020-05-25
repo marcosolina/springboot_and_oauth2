@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.2.6.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.marco</groupId>
-	<artifactId>resource-service</artifactId>
-	<version>0.0.1</version>
-	<name>resource-service</name>
-	<description>Demo project for Spring Boot</description>
+	<artifactId>internal-resource-service</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>internal-resource-service</name>
+	<description>Simple SpringBoot resource service</description>
 
 	<properties>
 		<java.version>11</java.version>
@@ -26,25 +27,12 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		
-		<!-- I need this to implement and use the Oauth2 protocol -->
+		<!-- I need this to implement and use the Oauth2 protocol-->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-oauth2</artifactId>
 		</dependency>
 		
-		<!-- I need this is to be able to perform calls to other WS using oauth2 -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-oauth2-client</artifactId>
-		</dependency>
-		
-		<!-- I need this is to be able to create the WebClient object used to call another WS -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webflux</artifactId>
-		</dependency>
-		
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -78,4 +66,5 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
 </project>
