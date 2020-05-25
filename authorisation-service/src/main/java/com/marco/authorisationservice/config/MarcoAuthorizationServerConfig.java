@@ -61,14 +61,18 @@ public class MarcoAuthorizationServerConfig extends AuthorizationServerConfigure
                 .secret(passwEnc.encode("password"))
                 .scopes("user_info","read","write")
                 .redirectUris("http://localhost:8080/webapp/login/oauth2/code/webappid")
-                .autoApprove(true)
+                .autoApprove(false)//the user has to grant the access
                 .and()
                 .withClient("resourceclient")
                 .secret(passwEnc.encode("password"))
                 .scopes("read_internal_service")
                 .authorizedGrantTypes("client_credentials")
-                .autoApprove(true)
+                .autoApprove(true)//no user interaction, so auto approve
                 .and()
+		/*
+		 * I need to register the Internal service otherwise he will not
+		 * be able to retrieve the JWT Public sign key
+		 */
                 .withClient("internalresourceclient")
                 .secret(passwEnc.encode("password"))
         ;
