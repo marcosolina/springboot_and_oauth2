@@ -69,10 +69,10 @@ public class MarcoAuthorizationServerConfig extends AuthorizationServerConfigure
                 .authorizedGrantTypes("client_credentials")
                 .autoApprove(true)//no user interaction, so auto approve
                 .and()
-		/*
-		 * I need to register the Internal service otherwise he will not
-		 * be able to retrieve the JWT Public sign key
-		 */
+				/*
+				 * I need to register the Internal service otherwise he will not
+				 * be able to retrieve the JWT Public sign key
+				 */
                 .withClient("internalresourceclient")
                 .secret(passwEnc.encode("password"))
         ;
